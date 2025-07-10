@@ -8,4 +8,4 @@ miniGit: $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
-	rm -f src/*.o miniGit
+	rm -f src/*.o minigit

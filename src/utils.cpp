@@ -37,3 +37,7 @@ std::string compute_sha1(const std::string& data) {
    return result.str(); 
 }
 
+bool starts_with(const std::string& str, const std::string& prefix) {
+   return str.rfind(prefix, 0) == 0;
+}
+

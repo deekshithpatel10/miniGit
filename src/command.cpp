@@ -8,6 +8,37 @@
 #include <sstream> 
 #include <string> 
 
+void print_log() {
+   std::string hash = get_head_commit();
+   while (!hash.empty()) {
+      std::string content = read_file(".miniGit/objects/" + hash);
+      std::istringstream ss(content);
+      std::string line, parent;
+
+      // Read optional parent line
+      std::getline(ss, line);
+      if (starts_with(line, "parent ")) {
+         parent = line.substr(7);
+         std::getline(ss, line); // move to next line (date)
+      } else {
+         parent = "";
+      }
+
+      std::string date = line;
+      std::getline(ss, line); // message
+      std::string message = line;
+
+      std::cout << "commit " << hash << "\n    " << message << "\n    " << date << "\n\n";
+      hash = parent;
+   }
+}
+
+void show_status() {
+   std::map<std::string, std::string> idx = read_index();
+   std::cout << "Staged files:\n";
+   for (auto& [file, hash] : idx) std::cout << "    " << file << "\n";
+}
+
 void handle_command(int argc, char* argv[]) {
    if(argc < 2) {
       std::cout << "Usage: minigit <command> [args]\n"; 
@@ -26,6 +57,10 @@ void handle_command(int argc, char* argv[]) {
       std::string message; 
       for(int i = 2; i < argc; i++) message += argv[i]; 
       write_commit(message); 
+   } else if (cmd == "log") {
+      print_log();
+   } else if (cmd == "status") {
+      show_status();
    } else {
       std::cerr << "Unknown or incomplete command.\n"; 
    }
