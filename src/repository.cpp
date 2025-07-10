@@ -1,5 +1,7 @@
 #include "repository.hpp"
 #include "utils.hpp"
+#include "object.hpp"
+#include "index.hpp"
 #include <fstream> 
 #include <sstream> 
 #include <map> 
@@ -19,4 +21,17 @@ bool init_repository() {
    write_file(".miniGit/index", ""); 
 
    return true; 
+}
+
+std::map<std::string, std::string> read_index() {
+   std::ifstream file(".miniGit/index"); 
+   std::map<std::string, std::string> result; 
+   std::string line; 
+   while(std::getline(file, line)) {
+      std::istringstream iss(line); 
+      std::string file, hash; 
+      iss >> file >> hash; 
+      result[file] = hash; 
+   }
+   return result;
 }

@@ -22,6 +22,10 @@ void handle_command(int argc, char* argv[]) {
       else std::cout << "Repo already initialized.\n"; 
    } else if(cmd == "add" && argc == 3) {
       add_to_index(argv[2]); 
+   } else if(cmd == "commit" && argc ==3) {
+      std::string message; 
+      for(int i = 2; i < argc; i++) message += argv[i]; 
+      write_commit(message); 
    } else {
       std::cerr << "Unknown or incomplete command.\n"; 
    }
