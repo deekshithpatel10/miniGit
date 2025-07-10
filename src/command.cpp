@@ -3,6 +3,7 @@
 #include "index.hpp"
 #include "object.hpp"
 #include "utils.hpp"
+#include "restore.hpp"
 #include <iostream> 
 #include <fstream> 
 #include <sstream> 
@@ -61,6 +62,15 @@ void handle_command(int argc, char* argv[]) {
       print_log();
    } else if (cmd == "status") {
       show_status();
+   } else if (cmd == "restore" && argc == 3) {
+      std::string arg = argv[2];
+   if (arg == "--staged") {
+         restore_staged_files();
+      } else {
+         restore_file(arg);
+      }
+   } else if (cmd == "restore" && argc == 4 && std::string(argv[2]) == "--commit") {
+      restore_from_commit(argv[3], "Restore from commit " + std::string(argv[3]));
    } else {
       std::cerr << "Unknown or incomplete command.\n"; 
    }
