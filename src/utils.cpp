@@ -20,3 +20,7 @@ std::string read_file(const std::string& path) {
    ss << file.rdbuf(); 
    return ss.str(); 
 }
+
+bool file_exists(const std::string& path) {
+   return std::filesystem::exists(path); 
+}
