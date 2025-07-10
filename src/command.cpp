@@ -4,6 +4,7 @@
 #include "object.hpp"
 #include "utils.hpp"
 #include "restore.hpp"
+#include "checkout.hpp"
 #include <iostream> 
 #include <fstream> 
 #include <sstream> 
@@ -71,6 +72,8 @@ void handle_command(int argc, char* argv[]) {
       }
    } else if (cmd == "restore" && argc == 4 && std::string(argv[2]) == "--commit") {
       restore_from_commit(argv[3], "Restore from commit " + std::string(argv[3]));
+   } else if (cmd == "checkout" && argc == 3) {
+      checkout_commit(argv[2]);
    } else {
       std::cerr << "Unknown or incomplete command.\n"; 
    }
